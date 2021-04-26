@@ -20,7 +20,7 @@ namespace GreetingSys.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.Name = "FeiHan";
+            ViewBag.Name = "Fei Han";
             return View();
         }
 
