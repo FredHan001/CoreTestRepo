@@ -1,6 +1,8 @@
 ﻿using GreetingSys.Models;
+using Grpc.Net.Client;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SayHello_gRPC;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,6 +28,21 @@ namespace GreetingSys.Controllers
 
         public IActionResult Privacy()
         {
+            return View();
+        }
+
+        public async Task<IActionResult> CallGrpc()
+        {
+            var channel = GrpcChannel.ForAddress("https://localhost:5001");
+            var client = new Greeter.GreeterClient(channel);
+
+            var response = await client.SayHelloAsync(
+                new HelloRequest { Name = "World" });
+
+            //Console.WriteLine(response.Message);
+
+            ViewBag.Mes = response.Message;
+
             return View();
         }
 
