@@ -33,15 +33,23 @@ namespace GreetingSys.Controllers
 
         public async Task<IActionResult> CallGrpc()
         {
-            var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var client = new Greeter.GreeterClient(channel);
+            try
+            {
+                var channel = GrpcChannel.ForAddress("https://localhost:5001");
+                var client = new Greeter.GreeterClient(channel);
 
-            var response = await client.SayHelloAsync(
-                new HelloRequest { Name = "World" });
+                var response = await client.SayHelloAsync(
+                    new HelloRequest { Name = "World" });
 
-            //Console.WriteLine(response.Message);
+                //Console.WriteLine(response.Message);
 
-            ViewBag.Mes = response.Message;
+                ViewBag.Mes = response.Message;
+            }
+            catch
+            {
+                ViewBag.Mes = "Error With gRPC server";
+            }
+           
 
             return View();
         }
